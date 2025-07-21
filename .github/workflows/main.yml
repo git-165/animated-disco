@@ -8,7 +8,7 @@ jobs:
     name: Publish Logseq graph
     steps:
       - uses: actions/checkout@v3
-      - uses: logseq/publish-spa@f0023c391e3c0c1cf4941cd90b0854d96e3d1ef0
+      - uses: logseq/publish-spa@ff409800be087ff6d6f091ec5e9bd05593d858e0
       - name: Add a nojekyll file # to make sure asset paths are correctly identified
         run: touch $GITHUB_WORKSPACE/www/.nojekyll
       - name: Deploy 🚀
