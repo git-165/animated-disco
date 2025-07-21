@@ -1,21 +1,17 @@
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
+permissions:
+  contents: write
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
+    name: Publish Logseq graph
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Logseq Publish SPA
-      uses: logseq/publish-spa@f0023c391e3c0c1cf4941cd90b0854d96e3d1ef0
-      with:
-        graph-directory: . # default is .
-        output-directory: www # default is www
-        version: 0.10.9 # default is 0.10.6
-        theme-mode: light # optional, default is light
-        accent-color: blue # optional, default is blue
+      - uses: actions/checkout@v3
+      - uses: logseq/publish-spa@f0023c391e3c0c1cf4941cd90b0854d96e3d1ef0
+      - name: Add a nojekyll file # to make sure asset paths are correctly identified
+        run: touch $GITHUB_WORKSPACE/www/.nojekyll
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: www
