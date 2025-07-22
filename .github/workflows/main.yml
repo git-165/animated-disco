@@ -2,15 +2,33 @@ on: [push]
 
 permissions:
   contents: write
+
 jobs:
-  test:
+  publish-graph: # Changed job name for clarity
     runs-on: ubuntu-latest
     name: Publish Logseq graph
     steps:
-      - uses: actions/checkout@v3
-      - uses: git-165/publish-spa:modified_feat_db
-      - name: Add a nojekyll file # to make sure asset paths are correctly identified
-        run: touch $GITHUB_WORKSPACE/www/.nojekyll
+      - name: Checkout Repo
+        uses: actions/checkout@v4 # Use v4, it's the latest
+
+      - name: Run Logseq Publish SPA
+        # Call your forked action and provide the necessary inputs
+        uses: git-165/publish-spa:modified_feat_db
+        with:
+          # THIS IS THE CRITICAL FIX:
+          # Tell the action to build the 'feat/db' branch of logseq/logseq
+          version: 'feat/db'
+          
+          # These inputs are also used, but their defaults are okay.
+          # It's good practice to be explicit anyway.
+          graph-directory: '.'
+          output-directory: 'www'
+          theme-mode: 'light'
+          accent-color: 'blue'
+
+      - name: Add a .nojekyll file
+        run: touch ./www/.nojekyll
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
