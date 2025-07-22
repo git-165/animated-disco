@@ -13,7 +13,7 @@ jobs:
 
       - name: Run Logseq Publish SPA
         # Call your forked action and provide the necessary inputs
-        uses: git-165/publish-spa:modified_feat_db
+        uses: git-165/publish-spa@modified_feat_db
         with:
           # THIS IS THE CRITICAL FIX:
           # Tell the action to build the 'feat/db' branch of logseq/logseq
